@@ -24,12 +24,12 @@ Herefore there is a way of converting ROS-commands to a text-file which can be s
 the DTPS-software using a USB-stick.
 */
 
-/*
+
 
 ofstream csrfile;
 
 void write_to_csr_description(){
-    csrfile.open("programma.txt");
+    csrfile.open("programma.txt","a");
     csrfile << "[Description]\n" ;
     csrfile << "Robot, VR-006L\n" ;
     csrfile << "Comment,\n" ;
@@ -39,6 +39,7 @@ void write_to_csr_description(){
     csrfile << "Update,\n" ;
     csrfile << "Original,\n" ;
     csrfile << "Edit, 0\n" ;
+    csrfile.close();
 }
 
 
@@ -49,14 +50,15 @@ double joint3 = roundf(group_variable_values[3]*180/3.14);
 double joint4 = roundf(group_variable_values[4]*180/3.14);
 
 void write_to_csr_pose(){
-    //csrfile.open(programma.txt);
+    csrfile.open("programma.txt","a");
     csrfile << "[Pose]/n";
     csrfile << "P1,AJ, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00/n";
     csrfile << "P2,AJ," << joint0, joint1, joint2, joint3, joint4, << "0.00 \n";   
+    csrfile.close();
 }
 
 void write_to_csr_command(){
-    //csrfile.open("programma.txt");
+    csrfile.open("programma.txt","a");
     csrfile << "[Command]\n";
     csrfile << "TOOL,\n";
     csrfile << "LABL0001\n";
@@ -66,7 +68,7 @@ void write_to_csr_command(){
 }
 
 
-*/
+
 
 int main(int argc, char *argv[]) 
 {
