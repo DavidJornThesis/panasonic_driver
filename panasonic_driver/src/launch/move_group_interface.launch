@@ -1,0 +1,8 @@
+<launch>
+
+  <include file="$(find panasonic_vr006l_moveit_config)/launch/demo.launch"/>
+
+  <node name="driver" pkg="panasonic_driver" type="driver" respawn="false" output="screen">
+  </node>
+
+</launch>
