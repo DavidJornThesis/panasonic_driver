@@ -57,9 +57,12 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_warehouse
   moveit_setup_assistant
   moveit_simple_controller_manager
+  trajectory_msgs
+  visualization_msgs
   rqt_moveit
   geometry_msgs
   eigen_conversions
+  rosbag
 )
 
 #find_package(Eigen3 REQUIRED) 

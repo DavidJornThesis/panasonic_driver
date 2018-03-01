@@ -6,6 +6,7 @@
 #include <ros/ros.h>
 #include <fstream>
 #include <sstream>
+#include <string.h>
 #include <math.h>
 #include <moveit/planning_interface/planning_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
@@ -16,6 +17,14 @@
 #include <moveit_msgs/AttachedCollisionObject.h>
 #include <moveit_msgs/CollisionObject.h>
 
+#include <visualization_msgs/MarkerArray.h>
+#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/PoseArray.h>
+
+#include <rosbag/bag.h>
+#include <rosbag/view.h>
+#include <boost/foreach.hpp>
+
 using namespace std;
 
 /*
@@ -25,7 +34,7 @@ the DTPS-software using a USB-stick.
 */
 
 
-
+/*
 ofstream csrfile;
 
 void write_to_csr_description(){
@@ -68,8 +77,19 @@ void write_to_csr_command(){
 }
 
 
+void tekst(){
+    ofstream csrfile;
+    csrfile.open("programma.csr",ios::app);
+    csrfile << "This is a line. \n";
+    csrfile.close();
 
+}
+*/
 
+/*//////////////////////////////
+/////////     MAIN       ///////
+////////////////////////////////
+*/
 int main(int argc, char *argv[]) 
 {
     ros::init(argc, argv, "driver");
@@ -78,6 +98,30 @@ int main(int argc, char *argv[])
     spinner.start();
 
     sleep(10.0);
+
+    std::string local_path;
+    
+    if(n.getParam("/local_path",local_path)){
+        ROS_INFO_STREAM("Local path found:" << local_path);
+    }
+    else
+    {
+        ROS_ERROR("Path not found");
+    }
+    
+    std::string bagReadFilePath = local_path;
+
+    // Define sequence of points were the robot has to move (joint space)
+    //vector<double> group_variable_values;
+    //vector<visualization_msgs::Marker> markerVec;
+
+    moveit::planning_interface::MoveGroup group("manipulator");
+    moveit_msgs::PlanningScene planning_scene;
+    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;          
+            
+     /////////////////////////////////////////////////////////////////////////   
+
+
     double i,j,k,l,m;
 
     cout << "Put in the value of joint RT (in radians)\n";
@@ -91,9 +135,9 @@ int main(int argc, char *argv[])
     cout << "Put in the value of joint BW (in radians)\n";
     cin >> m;
 
-    moveit::planning_interface::MoveGroup group("manipulator");
+    //moveit::planning_interface::MoveGroup group("manipulator");
 
-    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+    //moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
     ros::Publisher display_publisher = n.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path",1,true);
     moveit_msgs::DisplayTrajectory display_trajectory;
@@ -127,7 +171,7 @@ int main(int argc, char *argv[])
     write_to_csr_pose();
     write_to_csr_command();
     */
-
+    //tekst();
     ros::shutdown();
     return 0;
 }

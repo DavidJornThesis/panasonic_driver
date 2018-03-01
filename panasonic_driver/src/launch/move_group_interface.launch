@@ -3,6 +3,9 @@
   <include file="$(find panasonic_vr006l_moveit_config)/launch/demo.launch"/>
 
   <node name="driver" pkg="panasonic_driver" type="driver" respawn="false" output="screen">
+
+  <param name="local_path" value="$(find panasonic_driver)/src/files/text.csr" />
+
   </node>
 
 </launch>
