@@ -86,6 +86,9 @@ void tekst(){
 }
 */
 
+
+bool writeTrajectoryFile = true;
+
 /*//////////////////////////////
 /////////     MAIN       ///////
 ////////////////////////////////
@@ -101,6 +104,7 @@ int main(int argc, char *argv[])
 
     std::string local_path;
     
+    //save results in a textfile
     if(n.getParam("/local_path",local_path)){
         ROS_INFO_STREAM("Local path found:" << local_path);
     }
@@ -110,6 +114,14 @@ int main(int argc, char *argv[])
     }
     
     std::string bagReadFilePath = local_path;
+
+
+    //Get settings from launch file
+
+    if (!n.getParam("/writeTrajectoryFile", writeTrajectoryFile)){
+        ROS_WARN_STREAM("Writetrajectoryfile parameter not found, using default: " << writeTrajectoryFile);
+    }
+
 
     // Define sequence of points were the robot has to move (joint space)
     //vector<double> group_variable_values;

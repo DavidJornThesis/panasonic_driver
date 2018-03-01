@@ -4,7 +4,9 @@
 
   <node name="driver" pkg="panasonic_driver" type="driver" respawn="false" output="screen">
 
-  <param name="local_path" value="$(find panasonic_driver)/src/files/text.csr" />
+  <param name="local_path" value="$(find panasonic_driver)/files/text.csr" />
+
+  <param name="writeTrajectoryFile" value="true"/>
 
   </node>
 
