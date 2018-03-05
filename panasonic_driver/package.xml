@@ -50,6 +50,23 @@
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>cmake_modules</build_depend>
+  <build_depend>descartes_core</build_depend>
+  <build_depend>descartes_moveit</build_depend>
+  <build_depend>descartes_planner</build_depend>
+  <build_depend>descartes_trajectory</build_depend>
+  <build_depend>descartes_utilities</build_depend>
+  <build_depend>trajectory_msgs</build_depend>
+  <build_depend>roslib</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>tf_conversions</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>moveit_core</build_depend>
+  <build_depend>moveit_ros_planning_interface</build_depend>
+  <build_depend>moveit_ros_perception</build_depend>
+  <build_depend>interactive_markers</build_depend>
+  <build_depend>cmake_modules</build_depend>
+  <build_depend>geometric_shapes</build_depend>
+  
   
 
   <!-- The export tag contains other, unspecified, tags -->

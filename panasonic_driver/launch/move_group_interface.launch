@@ -6,8 +6,6 @@
 
   <param name="local_path" value="$(find panasonic_driver)/files/text.csr" />
 
-  <param name="writeTrajectoryFile" value="true"/>
-
   </node>
 
 </launch>

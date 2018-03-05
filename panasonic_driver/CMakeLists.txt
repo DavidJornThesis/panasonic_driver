@@ -63,6 +63,17 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   eigen_conversions
   rosbag
+  roslib
+  descartes_core
+  descartes_moveit
+  descartes_trajectory
+  descartes_planner
+  descartes_utilities
+  tf
+  tf_conversions
+  pluginlib
+  moveit_core
+  geometric_shapes
 )
 
 #find_package(Eigen3 REQUIRED) 
