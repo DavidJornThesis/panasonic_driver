@@ -1,0 +1,22 @@
+[Description]
+Robot, TA1400(G3)
+Comment,
+Mechanism,
+Tool, 1:TOOL01 
+Creator, DTPS
+User coordinates, none
+Update, 2018, 3, 7, 9, 35 55 
+Original, 2018, 3, 7, 9, 36, 39  
+Edit, 0
+
+[Pose]
+/Name, Type, RT, UA, FA, RW, BW, TW, G4, G5
+P1, AJ, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00
+P2, AJ,-60.00, 0.00, 0.00, 0.00, 0.00
+P3, AJ, 0.00, 0.00,10.00, 0.00, 0.00
+
+[Command]
+TOOL, 1:TOOL01
+MOVEP,P1,10.00,m/min,N
+MOVEP,P2,10.00,m/min,N
+MOVEP,P3,10.00,m/min,N
