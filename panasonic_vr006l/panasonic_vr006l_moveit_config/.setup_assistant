@@ -7,4 +7,4 @@ moveit_setup_assistant_config:
   CONFIG:
     author_name: david
     author_email: david.deschepper@student.uhasselt.be
-    generated_timestamp: 1523351498
+    generated_timestamp: 1523438256

@@ -21,7 +21,7 @@ def move_group_python_interface_tutorial():
 
  robot = moveit_commander.RobotCommander()
  scene = moveit_commander.PlanningSceneInterface()
- group = moveit_commander.MoveGroupCommander("arm")
+ group = moveit_commander.MoveGroupCommander("manipulator")
 
  display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
                                moveit_msgs.msg.DisplayTrajectory)
