@@ -26,7 +26,7 @@ use collada files and one stl-file.
                 <mesh filename="package://panasonic_vr006l_support/meshes/cad/baseplatform.stl"
 				scale=".01 .01 .01"/>
             </geometry>
-            <material name ="black" />
+            <material name="black" />
         </visual>
     </link>
 
@@ -37,7 +37,7 @@ use collada files and one stl-file.
                 <mesh filename="package://panasonic_vr006l_support/meshes/cad/shoulder.stl"
 				scale=".01 .01 .01"/>
             </geometry>
-            <material name ="black" />
+            <material name="black" />
         </visual>
     </link>
 
@@ -48,7 +48,7 @@ use collada files and one stl-file.
                 <mesh filename="package://panasonic_vr006l_support/meshes/cad/upperarm_rotate.stl"
 				scale=".01 .01 .01"/>
             </geometry>
-            <material name ="red" />
+            <material name="red" />
         </visual>
     </link>
 
@@ -59,7 +59,7 @@ use collada files and one stl-file.
                 <mesh filename="package://panasonic_vr006l_support/meshes/cad/elbow_yeah.stl"
 				scale=".01 .01 .01"/>
             </geometry>
-            <material name ="red" />
+            <material name="red" />
         </visual>
     </link>
 
@@ -70,7 +70,7 @@ use collada files and one stl-file.
                 <mesh filename="package://panasonic_vr006l_support/meshes/cad/forearm_yeah.stl"
 				scale=".01 .01 .01"/>
             </geometry>
-            <material name ="red" />
+            <material name="red" />
         </visual>
     </link>
 
@@ -81,11 +81,11 @@ use collada files and one stl-file.
                 <mesh filename="package://panasonic_vr006l_support/meshes/cad/frontend_rotate.stl"
 				scale=".01 .01 .01"/>
             </geometry>
-            <material name ="red" />
+            <material name="red" />
         </visual>
     </link>
 
-    <link name = "end_effector">
+    <link name= "end_effector">
         <origin xyz= "0 0 0" />
     </link>
 
@@ -131,11 +131,11 @@ use collada files and one stl-file.
 	    <limit effort="100" lower="-4.712" upper="4.712" velocity="5.23" />
     </joint>    
 
-    <joint name= "joint_link5_endeffector" type = "continuous">
-        <parent link = "link5"/>
-        <child link = "end_effector"/>
-        <origin xyz = "0 -0.06 0.02" rpy = "0 0 0"/>
-        <axis xyz = " 0 1 0"/>
+    <joint name="joint_link5_endeffector" type="continuous">
+        <parent link="link5"/>
+        <child link="end_effector"/>
+        <origin xyz="0 -0.06 0.02" rpy= "0 0 0"/>
+        <axis xyz= " 0 1 0"/>
     </joint>
 
 </robot>

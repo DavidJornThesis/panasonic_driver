@@ -38,16 +38,21 @@ def move_group_python_interface_tutorial():
  print "============ Printing robot state"
  print robot.get_current_state()
  print "============"
+ print "============= Printing current pose"
+ print group.get_current_pose()
+ print "============"
+ rospy.sleep(10)
 
  print "============ Generating plan 1"
  pose_target = geometry_msgs.msg.Pose()
+ #pose_target.orientation.w = 0.9
 
- #pose_target.orientation.x = 1.0
- pose_target.position.x = 0.07
- pose_target.position.y = -0.05
- pose_target.position.z = 0.1
+ pose_target.position.x = 0.01 
+ pose_target.position.y = -0.46
+ pose_target.position.z = 0.446
  
  group.set_pose_target(pose_target)
+ 
 
  plan1 = group.plan()
 
@@ -63,6 +68,10 @@ def move_group_python_interface_tutorial():
 
  print "============ Waiting while plan1 is visualized (again)..."
  rospy.sleep(5)
+
+ print "============= Printing current pose"
+ print group.get_current_pose()
+ print "============"
 
  print "====================== End of tutorial"
 

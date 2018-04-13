@@ -19,7 +19,7 @@
         <joint name="joint_link2_link3" value="0" />
         <joint name="joint_link3_link4" value="0" />
         <joint name="joint_link4_link5" value="0" />
-        <joint name="joint_link5_endeffector" value="-1.57" />
+        <joint name="joint_link5_endeffector" value="1.57" />
     </group_state>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="base" link2="link1" reason="Adjacent" />
