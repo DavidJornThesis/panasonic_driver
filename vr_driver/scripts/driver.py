@@ -35,7 +35,7 @@ import visualization_msgs
 import geometry_msgs.msg
 import roslib; roslib.load_manifest('vr_driver')
 import pyprofibus
-from pyprofibus import DpTelegram_SetPrm_Req, monotonic_time, DpSlaveState
+from pyprofibus import DpTelegram_SetPrm_Req, monotonic_time, DpSlaveState, DPM1
 
 ##############################
 
@@ -76,6 +76,85 @@ def move_robot_moveit():
 '''    
 
 def setup_communication():
+ 
+    master = None
+    try:
+	    # Parse the config file.
+	    config = pyprofibus.PbConf.fromFile("/home/david/robot_ws/src/vr_driver/scripts/et200s.conf")
+
+	    # Create a PHY (layer 1) interface object
+	    phy = config.makePhy()
+
+	    # Create a DP class 1 master with DP address 1
+	    master = pyprofibus.DPM1(phy = phy,
+				    masterAddr = config.dpMasterAddr,
+				    debug = True)
+
+	    # Create a slave descriptions.
+	    for slaveConf in config.slaveConfs:
+		    gsd = slaveConf.gsd
+
+		    # Create a slave description for an ET-200S.
+		    # The ET-200S has got the DP address 8 set via DIP-switches.
+		    slaveDesc = pyprofibus.DpSlaveDesc(identNumber = gsd.getIdentNumber(),
+						        slaveAddr = slaveConf.addr)
+
+		    # Create Chk_Cfg telegram
+		    slaveDesc.setCfgDataElements(gsd.getCfgDataElements())
+
+		    # Set User_Prm_Data
+		    dp1PrmMask = bytearray((DpTelegram_SetPrm_Req.DPV1PRM0_FAILSAFE,
+					DpTelegram_SetPrm_Req.DPV1PRM1_REDCFG,
+					0x00))
+		    dp1PrmSet  = bytearray((DpTelegram_SetPrm_Req.DPV1PRM0_FAILSAFE,
+					DpTelegram_SetPrm_Req.DPV1PRM1_REDCFG,
+					0x00))
+		    slaveDesc.setUserPrmData(gsd.getUserPrmData(dp1PrmMask = dp1PrmMask,
+							    dp1PrmSet = dp1PrmSet))
+
+		    # Set various standard parameters
+		    slaveDesc.setSyncMode(slaveConf.syncMode)
+		    slaveDesc.setFreezeMode(slaveConf.freezeMode)
+		    slaveDesc.setGroupMask(slaveConf.groupMask)
+		    slaveDesc.setWatchdog(slaveConf.watchdogMs)
+
+		    # Register the ET-200S slave at the DPM
+		    master.addSlave(slaveDesc)
+
+	    # Initialize the DPM
+	    master.initialize()
+	    slaveDescs = master.getSlaveList()
+
+	    # Cyclically run Data_Exchange.
+	    # 4 input bits from the 4-DI module are copied to
+	    # the DO module.
+	    inData = 0
+	    rtSum, runtimes, nextPrint = 0, [ 0, ] * 512, monotonic_time() + 1.0
+	    while True:
+		    start = monotonic_time()
+
+		    # Run slave state machines.
+		    for slaveDesc in slaveDescs:
+			    outData = [inData & 3]
+			    inDataTmp = master.runSlave(slaveDesc, outData)
+			    if inDataTmp is not None:
+				    inData = inDataTmp[0]
+
+		    # Print statistics.
+		    end = monotonic_time()
+		    runtimes.append(end - start)
+		    rtSum = rtSum - runtimes.pop(0) + runtimes[-1]
+		    if end > nextPrint:
+			    nextPrint = end + 3.0
+			    sys.stderr.write("pyprofibus cycle time = %.3f ms\n" %\
+				    (rtSum / len(runtimes) * 1000.0))
+
+    except pyprofibus.ProfibusError as e:
+	    print("Terminating: %s" % str(e))
+    finally:
+	    if master:
+		    master.destroy()
+'''    
     master = None
     try:
         # Parse the config file (see /config/panasonic_profibus.conf)
@@ -95,16 +174,16 @@ def setup_communication():
             slaveDesc = pyprofibus.DpSlaveDesc(identNumber = gsd.getIdentNumber(), slaveAddr = slaveConf.addr)
 
             # Create Chk_Cfg telegram (not available in gsd of pana)
-            slaveDesc.setCfgDataElements(gsd.getCfgDataElements())
+            #slaveDesc.setCfgDataElements(gsd.getCfgDataElements())
 
             # Set User_Prm_Data (not available in gsd of pana)
-            slaveDesc.setUserPrmData(gsd.getUserPrmData())
+            #slaveDesc.setUserPrmData(gsd.getUserPrmData())
             
             # Set various standard Profibus parameters (syncmode, watchdog...)
             slaveDesc.setSyncMode(slaveConf.syncMode)
             slaveDesc.setFreezeMode(slaveConf.freezeMode)
-            slaveDesc.setGroupMask(slaveConf.groupMask)
-            slaveDesc.setWatchdog(slaveConf.watchdogMs)
+            #slaveDesc.setGroupMask(slaveConf.groupMask)
+            #slaveDesc.setWatchdog(slaveConf.watchdogMs)
 
             # Register the Panasonic controller as slave at the DP1
             master.addSlave(slaveDesc)
@@ -119,8 +198,8 @@ def setup_communication():
         rtSum, runtimes, nextprint = 0, [0, ] * 512, monotonic_time() + 1.0
 
         # a size of 14 bytes or 7 integers will be send
-        in1 = 1000
-        in2 = 0
+        in1 = 0b11101000
+        in2 = 0b00000011
         in3 = 0
         in4 = 0
         in5 = 0
@@ -134,25 +213,24 @@ def setup_communication():
         in13 = 0
         in14 = 0
 
-
-        dataIn = [format(in1, '016b'), format(in2, '016b'), format(in3, '016b'), format(in4, '016b'),
-                format(in5, '016b'), format(in6, '016b'), format(in7, '016b'), format(in8, '016b'), format(in9, '016b'),
-                format(in10, '016b'), format(in11, '016b'), format(in12, '016b'), format(in13, '016b'), format(in14, '016b') ]    # send x[mm]= 1000 to robot as an array of 14 bytes
+        # send x[mm]= 1000 to robot as an array of 14 bytes
+        dataIn = [format(in1, '08b'), format(in2, '08b'), format(in3, '08b'), format(in4, '08b'),
+                format(in5, '08b'), format(in6, '08b'), format(in7, '08b'), format(in8, '08b'), format(in9, '08b'),
+                format(in10, '08b'), format(in11, '08b'), format(in12, '08b'), format(in13, '08b'), format(in14, '08b') ]    
         print "=== Data in ==="
         print dataIn        # check if dataIn is converted correctly from WORD to BINARY      
         
         while True:
             start = monotonic_time()      
 
-
             # Run data exchange
             for slaveDesc in slaveDescs:
                 dataOut = dataIn
                 dataInTemp = master.runSlave(slaveDesc, dataOut)
                 
-                print dataInTemp        # check if data is tranceived or not. This variable has the value of 'None'  
+                #print dataInTemp        # check if data is tranceived or not. This variable must have the value of 'not None' to be send 
 
-                if dataInTemp is None:
+                if dataInTemp is not None:
                     dataIn = dataInTemp 
                                         
 
@@ -171,7 +249,10 @@ def setup_communication():
     finally:
         if master:
             master.destroy()
-
+'''
+###############################
+#       MAIN-PROGRAM          #
+###############################
 
 def main():
     try:
@@ -179,7 +260,7 @@ def main():
         
         while not rospy.is_shutdown():
             # Show position streaming in moveit
-        #move_robot_moveit()
+            #move_robot_moveit()
 
             # Stream position to robot over Profibus
             setup_communication()
