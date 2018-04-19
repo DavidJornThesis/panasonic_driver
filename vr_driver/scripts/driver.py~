@@ -80,7 +80,7 @@ while not rospy.is_shutdown():
     master = None
 
     try:
-        config = pyprofibus.PbConf.fromFile("/home/david/robot_ws/src/vr_driver/scripts/panaprofi.conf")
+        config = pyprofibus.PbConf.fromFile("/home/david/robot_ws/src/vr_driver/scripts/et200s.conf")
         phy = config.makePhy()
         master = pyprofibus.DPM1(phy=phy, masterAddr=config.dpMasterAddr, debug=True)
 
@@ -88,14 +88,13 @@ while not rospy.is_shutdown():
             gsd = slaveConf.gsd
             slaveDesc = pyprofibus.DpSlaveDesc(identNumber=gsd.getIdentNumber(), slaveAddr = slaveConf.addr)
 
-            #dp1PrmMask = bytearray((DpTelegram_SetPrm_Req.DPV1PRM0_FAILSAFE, DpTelegram_SetPrm_Req.DPV1PRM1_REDCFG,0x00))
-            #dp1PrmSet = bytearray((DpTelegram_SetPrm_Req.DPV1PRM0_FAILSAFE, DpTelegram_SetPrm_Req.DPV1PRM1_REDCFG,0x00))
-            #slaveDesc.setUserPrmData(gsd.getUserPrmData(dp1PrmMask = dp1PrmMask, dp1PrmSet = dp1PrmSet))
+            dp1PrmMask = bytearray((DpTelegram_SetPrm_Req.DPV1PRM0_FAILSAFE, DpTelegram_SetPrm_Req.DPV1PRM1_REDCFG,0x00))
+            dp1PrmSet = bytearray((DpTelegram_SetPrm_Req.DPV1PRM0_FAILSAFE, DpTelegram_SetPrm_Req.DPV1PRM1_REDCFG,0x00))
+            slaveDesc.setUserPrmData(gsd.getUserPrmData(dp1PrmMask = dp1PrmMask, dp1PrmSet = dp1PrmSet))
 	    
 
-
             slaveDesc.setCfgDataElements(gsd.getCfgDataElements())
-            slaveDesc.setUserPrmData(gsd.getUserPrmData())
+            #slaveDesc.setUserPrmData(gsd.getUserPrmData())
 
             slaveDesc.setSyncMode(slaveConf.syncMode)
             slaveDesc.setFreezeMode(slaveConf.freezeMode)
@@ -107,21 +106,22 @@ while not rospy.is_shutdown():
         master.initialize()
         slaveDescs = master.getSlaveList()
 
-        in1 = 0b00001111
-	in2 = 0b00000000
-	in3 = 0b00000000
-	in4 = 0b00000000
-	in5 = 0b00000000
-	in6 = 0b00000000
-	in7 = 0b00000000
-	in8 = 0b00000000
-	in9 = 0b00000000
-	in10 = 0b0000000
-	in11 = 0b00000000
-	in12 = 0b00000000
-	in13 = 0b00000000
-	in14 = 0b00000000
-	indata = [in1, in2, in3, in4, in5, in6, in7, in8, in9, in10, in11, in12, in13, in14]
+        #in1 = 0b00001111
+	#in2 = 0b00000000
+	#in3 = 0b00000000
+	#in4 = 0b00000000
+	#in5 = 0b00000000
+	#in6 = 0b00000000
+	#in7 = 0b00000000
+	#in8 = 0b00000000
+	#in9 = 0b00000000
+	#in10 = 0b0000000
+	#in11 = 0b00000000
+	#in12 = 0b00000000
+	#in13 = 0b00000000
+	#in14 = 0b00000000
+	#indata = [in1, in2, in3, in4, in5, in6, in7, in8, in9, in10, in11, in12, in13, in14]
+        indata = 0
         rtSum, runtimes, nextPrint = 0, [0, ] * 512, monotonic_time() + 1.0
         while True:
             start = monotonic_time()
