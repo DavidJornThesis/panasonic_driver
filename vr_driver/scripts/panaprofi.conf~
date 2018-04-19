@@ -14,7 +14,7 @@
 [PROFIBUS]
 ; Enable/disbale debug mode (0--> no debugging; 1 --> debugging)
 
-debug=2
+debug = 0
 
 ;Physical protocol layer (layer 1 of OSI-model) 
 [PHY]
