@@ -2,7 +2,7 @@
 
   <include file="$(find panasonic_vr006l_moveit_config)/launch/demo.launch"/>
 
-  <node name="move_group_python_interface_tutorial"  pkg="vr_driver" type="move_group_python_interface_tutorial.py" respawn="false" output="screen">
+  <node name="visualize"  pkg="vr_driver" type="visualize.py" respawn="false" output="screen">
   </node>
 
 </launch>

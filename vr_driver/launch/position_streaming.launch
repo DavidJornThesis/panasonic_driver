@@ -1,6 +1,0 @@
-<launch>
- 
-  <node name="vr_driver" pkg="vr_driver" type="driver.py" respawn="false" output="screen">
-  </node>
-
-</launch>

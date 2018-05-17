@@ -56,7 +56,7 @@ use collada files and one stl-file.
         <visual>
             <origin xyz="0.0625 -0.015 0.037" rpy="0 0 0" />
             <geometry>
-                <mesh filename="package://panasonic_vr006l_support/meshes/cad/elbow_yeah.stl"
+                <mesh filename="package://panasonic_vr006l_support/meshes/cad/elbow_new.stl"
 				scale=".01 .01 .01"/>
             </geometry>
             <material name="red" />
@@ -67,7 +67,7 @@ use collada files and one stl-file.
         <visual>
             <origin xyz="0 -0.18 0.001" />
             <geometry>
-                <mesh filename="package://panasonic_vr006l_support/meshes/cad/forearm_yeah.stl"
+                <mesh filename="package://panasonic_vr006l_support/meshes/cad/forearm_new.stl"
 				scale=".01 .01 .01"/>
             </geometry>
             <material name="red" />
@@ -126,7 +126,7 @@ use collada files and one stl-file.
     <joint name="joint_link4_link5" type="revolute">
         <parent link= "link4"/>
         <child link= "link5"/>
-        <origin xyz="0 -0.25 0.001" rpy="0 0 0"/>
+        <origin xyz="0 -0.25 0.001" rpy="1.57 0 0"/>
         <axis xyz="1 0 0" />
 	    <limit effort="100" lower="-4.712" upper="4.712" velocity="5.23" />
     </joint>    
