@@ -245,9 +245,21 @@ def visualizeMovement():
 #             dat = 0
 #         yield t, dat
         
-#def printDataTraffic():
-    
-    
+def printDataTraffic():
+    data = []
+    time = []
+    ser = serial.Serial('/dev/ttyUSB0', 19200)
+    read = ser.readline()
+    data.append(read)
+    plt.ion()
+    plt.xlim(0, 1)
+    plt.title('Live streaming amount of transferred data in data exchange')
+    plt.ylabel('Amount of data [bytes]')
+    plt.xlabel('Time [s]')
+    plt.plot(data, time)
+    time.sleep(0.01)
+    plt.ioff()
+    plt.show()
 
 
 def main():
@@ -275,7 +287,8 @@ def main():
                 # ani = animation.FuncAnimation(fig, runDataUSB, captureData, interval=0, blit=True)
                 # plt.show()
                 #if outputArray[1] != 0 or outputArray[2] != 0 or outputArray[3] != 0 or outputArray[4] != 0 or outputArray[5] != 0:
-                print outputArray 
+                print outputArray
+                printDataTraffic() 
                 #print('ik heb verzonden')
 
                 

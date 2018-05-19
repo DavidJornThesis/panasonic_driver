@@ -64,9 +64,9 @@ pose_target = geometry_msgs.msg.Pose()
 print "============ pose:============"
 print group.get_current_pose()
 #pose_target.orientation.w = 1.0
-pose_target.position.x = 0.43
-pose_target.position.y = 0.005
-pose_target.position.z = 0.3575
+pose_target.position.x = 0.35
+pose_target.position.y = 0.05
+pose_target.position.z = 0.32
 group.set_pose_target(pose_target)
 
 plan1 = group.plan()

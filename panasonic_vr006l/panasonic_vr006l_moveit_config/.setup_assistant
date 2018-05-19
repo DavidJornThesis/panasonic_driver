@@ -6,5 +6,5 @@ moveit_setup_assistant_config:
     relative_path: config/panasonic.srdf
   CONFIG:
     author_name: david
-    author_email: david.deschepper@student.uhasselt.be
-    generated_timestamp: 1526126592
+    author_email: davidds96@gmail.com
+    generated_timestamp: 1526732316
